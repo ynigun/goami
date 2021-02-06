@@ -32,7 +32,19 @@ func NewSocket(address string) (*Socket, error) {
 	s.run(conn)
 	return s, nil
 }
-
+func NewSocketWithTimeout(address string, timeout time.Duration) (*Socket, error) {
+        conn, err := net.DialTimeout("tcp", address, timeout)
+        if err != nil {
+                return nil, err
+        }
+        s := &Socket{
+                conn:     conn,
+                incoming: make(chan string, 32),
+                shutdown: make(chan struct{}),
+        }
+        s.run(conn)
+        return s, nil
+}
 // Connected returns the socket status, true for connected,
 // false for disconnected.
 func (s *Socket) Connected() bool {
