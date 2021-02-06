@@ -32,6 +32,7 @@ func NewSocket(address string) (*Socket, error) {
 	s.run(conn)
 	return s, nil
 }
+// NewSocketWithTimeout provides a new socket With Timeout client, connecting to a tcp server.
 func NewSocketWithTimeout(address string, timeout time.Duration) (*Socket, error) {
         conn, err := net.DialTimeout("tcp", address, timeout)
         if err != nil {
